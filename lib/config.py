@@ -22,7 +22,7 @@ class Config:
         return os.environ.get('METRIC_FILE') or '/tmp/metrics'
 
     def metricttl(self):
-        return 300
+        return 600
 
     def pullevery(self):
         return 2
