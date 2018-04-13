@@ -43,14 +43,12 @@ class Common:
             if isinstance(payload.get(key), dict):
                 self.extract(payload.get(key), parents + [key], inheritedlabels + locallabels)
 
+            # XXX skip string values
+            elif isinstance(payload.get(key), str):
+                continue
+
             else:
-                value = payload.get(key)
-
-                if isinstance(value, str):
-                    value = value.partition(' ')[0]
-
-                # yield (metricname, labels, value, hash)
-                yield '_'.join(parents + [key]), ','.join(self.labels + inheritedlabels + locallabels), value, self.hash('_'.join(parents + [key]), self.labels + inheritedlabels + locallabels)
+                yield '_'.join(parents + [key]), ','.join(self.labels + inheritedlabels + locallabels), payload.get(key), self.hash('_'.join(parents + [key]), self.labels + inheritedlabels + locallabels)
 
 
 class Parser():
